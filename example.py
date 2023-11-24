@@ -1,0 +1,796 @@
+# coding: utf-8
+from datetime import date, datetime
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+#Ventana de inicio
+class Ui_Form(object):
+    def setupUi(self, Form):
+        Form.setObjectName("Form")
+        Form.resize(400, 300)
+        self.label = QtWidgets.QLabel(Form)
+        self.label.setGeometry(QtCore.QRect(90, 30, 221, 16))
+        self.label.setObjectName("label")
+        self.label_2 = QtWidgets.QLabel(Form)
+        self.label_2.setGeometry(QtCore.QRect(80, 80, 47, 14))
+        self.label_2.setObjectName("label_2")
+        self.label_3 = QtWidgets.QLabel(Form)
+        self.label_3.setGeometry(QtCore.QRect(80, 120, 61, 16))
+        self.label_3.setObjectName("label_3")
+        self.label_4 = QtWidgets.QLabel(Form)
+        self.label_4.setGeometry(QtCore.QRect(60, 160, 47, 14))
+        self.label_4.setText("")
+        self.label_4.setObjectName("label_4")
+        self.pushButton = QtWidgets.QPushButton(Form)
+        self.pushButton.setGeometry(QtCore.QRect(220, 160, 75, 23))
+        self.pushButton.setObjectName("pushButton")
+        self.pushButton_2 = QtWidgets.QPushButton(Form)
+        self.pushButton_2.setGeometry(QtCore.QRect(300, 260, 75, 23))
+        self.pushButton_2.setObjectName("pushButton_2")
+        self.pushButton_3 = QtWidgets.QPushButton(Form)
+        self.pushButton_3.setGeometry(QtCore.QRect(110, 160, 75, 23))
+        self.pushButton_3.setObjectName("pushButton_3")
+        self.lineEdit = QtWidgets.QLineEdit(Form)
+        self.lineEdit.setGeometry(QtCore.QRect(150, 80, 113, 20))
+        self.lineEdit.setObjectName("lineEdit")
+        self.lineEdit_2 = QtWidgets.QLineEdit(Form)
+        self.lineEdit_2.setGeometry(QtCore.QRect(150, 120, 113, 20))
+        self.lineEdit_2.setObjectName("lineEdit_2")
+
+        self.retranslateUi(Form)
+        QtCore.QMetaObject.connectSlotsByName(Form)
+
+        self.pushButton_3.clicked.connect(self.register_user)
+        self.pushButton_2.clicked.connect(self.logout)
+
+    def register_user(self):
+        menu.hide()
+        client = self.lineEdit.text()
+        self.ventana_reserva = QtWidgets.QDialog()
+        self.ui_reserva = Ui_Reserva_de_habitacion(client)
+        self.ui_reserva.setupUi(self.ventana_reserva)
+        self.ventana_reserva.show()
+
+    def logout(self):
+        QtWidgets.QApplication.quit()
+
+    def retranslateUi(self, Form):
+        _translate = QtCore.QCoreApplication.translate
+        Form.setWindowTitle(_translate("Form", "Form"))
+        self.label.setText(_translate("Form", "BIENVENIDO PARAIDISE HOTEL & RESORT"))
+        self.label_2.setText(_translate("Form", "Usuario"))
+        self.label_3.setText(_translate("Form", u"Contraseña"))
+        self.pushButton.setText(_translate("Form", "Iniciar cesión"))
+        self.pushButton_2.setText(_translate("Form", "Salir"))
+        self.pushButton_3.setText(_translate("Form", "Registrar"))
+
+
+#Ventana reserva de habpitaciones
+class Ui_Reserva_de_habitacion(object):
+    def __init__(self, client):
+        super().__init__()
+        self.client = client
+        self.tipo_habitacion_str = ''
+        self.costo_total = 0
+
+    def setupUi(self, Reserva_de_habitacion):
+        Reserva_de_habitacion.setObjectName("Reserva_de_habitacion")
+        Reserva_de_habitacion.resize(647, 520)
+        self.verticalLayoutWidget = QtWidgets.QWidget(Reserva_de_habitacion)
+        self.verticalLayoutWidget.setGeometry(QtCore.QRect(0, 0, 643, 518))
+        self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
+        self.verticalLayout.setContentsMargins(10, 10, 10, 0)
+        self.verticalLayout.setSpacing(15)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.lblReservaDeHabitacion = QtWidgets.QLabel(self.verticalLayoutWidget)
+        self.lblReservaDeHabitacion.setStyleSheet("font: 75 14pt \"Arial\";")
+        self.lblReservaDeHabitacion.setObjectName("lblReservaDeHabitacion")
+        self.verticalLayout.addWidget(self.lblReservaDeHabitacion)
+        self.formLayout = QtWidgets.QFormLayout()
+        self.formLayout.setHorizontalSpacing(23)
+        self.formLayout.setObjectName("formLayout")
+        self.lblFechaDeReserva = QtWidgets.QLabel(self.verticalLayoutWidget)
+        self.lblFechaDeReserva.setObjectName("lblFechaDeReserva")
+        self.formLayout.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.lblFechaDeReserva)
+        self.calendario = QtWidgets.QCalendarWidget(self.verticalLayoutWidget)
+        self.calendario.setStyleSheet("")
+        self.calendario.setObjectName("calendario")
+        self.formLayout.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.calendario)
+        self.lblCantidad = QtWidgets.QLabel(self.verticalLayoutWidget)
+        self.lblCantidad.setObjectName("lblCantidad")
+        self.formLayout.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.lblCantidad)
+        self.spnNumeroDeDias = QtWidgets.QSpinBox(self.verticalLayoutWidget)
+        self.spnNumeroDeDias.setObjectName("spnNumeroDeDias")
+        self.formLayout.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.spnNumeroDeDias)
+        self.lblTipoDeHabitacion = QtWidgets.QLabel(self.verticalLayoutWidget)
+        self.lblTipoDeHabitacion.setObjectName("lblTipoDeHabitacion")
+        self.formLayout.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.lblTipoDeHabitacion)
+        self.boxDescripcionDeHabitacion = QtWidgets.QComboBox(self.verticalLayoutWidget)
+        self.boxDescripcionDeHabitacion.setObjectName("boxDescripcionDeHabitacion")
+        self.boxDescripcionDeHabitacion.addItem("")
+        self.boxDescripcionDeHabitacion.addItem("")
+        self.boxDescripcionDeHabitacion.addItem("")
+        self.boxDescripcionDeHabitacion.addItem("")
+        self.formLayout.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.boxDescripcionDeHabitacion)
+        self.cmdCalcular = QtWidgets.QPushButton(self.verticalLayoutWidget)
+        self.cmdCalcular.setObjectName("cmdCalcular")
+        self.formLayout.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.cmdCalcular)
+        self.lblCosto = QtWidgets.QLabel(self.verticalLayoutWidget)
+        self.lblCosto.setObjectName("lblCosto")
+        self.formLayout.setWidget(4, QtWidgets.QFormLayout.LabelRole, self.lblCosto)
+        self.boxCostoConPrecio = QtWidgets.QLineEdit(self.verticalLayoutWidget)
+        self.boxCostoConPrecio.setObjectName("boxCostoConPrecio")
+        self.boxCostoConPrecio.setReadOnly(True)
+
+        self.formLayout.setWidget(4, QtWidgets.QFormLayout.FieldRole, self.boxCostoConPrecio)
+        self.verticalLayout.addLayout(self.formLayout)
+        self.cmdSiguiente = QtWidgets.QPushButton(self.verticalLayoutWidget)
+        self.cmdSiguiente.setObjectName("cmdSiguiente")
+        self.verticalLayout.addWidget(self.cmdSiguiente)
+
+        self.retranslateUi(Reserva_de_habitacion)
+        QtCore.QMetaObject.connectSlotsByName(Reserva_de_habitacion)
+
+        self.cmdCalcular.clicked.connect(self.calcular_reserva)
+        self.cmdSiguiente.clicked.connect(self.next_step)
+
+    def next_step(self):
+        self.ventana_alimento = QtWidgets.QDialog()
+        self.ui_alimento = Ui_Alimento(self.client, self.tipo_habitacion_str, self.costo_total)
+        self.ui_alimento.setupUi(self.ventana_alimento)
+        self.ventana_alimento.show()
+
+    def calcular_reserva(self):
+        dias = self.spnNumeroDeDias.text()
+        tipo_habitacion = self.boxDescripcionDeHabitacion.currentIndex()
+        self.tipo_habitacion_str = self.boxDescripcionDeHabitacion.currentText()
+
+        costo_habitacion = 0
+        if tipo_habitacion == 0:
+            costo_habitacion = 350.0
+        elif tipo_habitacion == 1:
+            costo_habitacion = 105.0
+        elif tipo_habitacion == 2:
+            costo_habitacion = 310.0
+        elif tipo_habitacion == 3:
+            costo_habitacion = 170.0
+        self.costo_total = int(dias) * costo_habitacion
+        self.boxCostoConPrecio.setText(f"S/ {str(self.costo_total)}")
+
+    def retranslateUi(self, Reserva_de_habitacion):
+        _translate = QtCore.QCoreApplication.translate
+        Reserva_de_habitacion.setWindowTitle(_translate("Reserva_de_habitacion", "Dialog"))
+        self.lblReservaDeHabitacion.setWhatsThis(
+            _translate("Reserva_de_habitacion", "<html><head/><body><p align=\"center\"><br/></p></body></html>"))
+        self.lblReservaDeHabitacion.setText(
+            _translate("Reserva_de_habitacion", "                                 RESERVA DE HABITACIÓN "))
+        self.lblFechaDeReserva.setText(_translate("Reserva_de_habitacion", "Fecha de reserva:"))
+        self.lblCantidad.setText(_translate("Reserva_de_habitacion", "Cantidad de días:"))
+        self.lblTipoDeHabitacion.setText(_translate("Reserva_de_habitacion", "Tipo de habitación:"))
+        self.boxDescripcionDeHabitacion.setItemText(0, _translate("Reserva_de_habitacion", "Habitación VIP  S/ 350.00"))
+        self.boxDescripcionDeHabitacion.setItemText(1, _translate("Reserva_de_habitacion", "Individual      S/ 105.00"))
+        self.boxDescripcionDeHabitacion.setItemText(2, _translate("Reserva_de_habitacion", "Matrimonial     S/ 310.00"))
+        self.boxDescripcionDeHabitacion.setItemText(3, _translate("Reserva_de_habitacion", "Normales    S/170.00"))
+        self.cmdCalcular.setText(_translate("Reserva_de_habitacion", "Calcular"))
+        self.lblCosto.setText(_translate("Reserva_de_habitacion", "Costo: "))
+        # self.boxCostoConPrecio.setItemText(0, _translate("Reserva_de_habitacion",
+        #                                                     "Habitación VIP          S/  350.00"))
+        # self.boxCostoConPrecio.setItemText(1, _translate("Reserva_de_habitacion",
+        #                                                     "Individual                 S/  105.00"))
+        # self.boxCostoConPrecio.setItemText(2, _translate("Reserva_de_habitacion",
+        #                                                     "Matrimonial              S/  310.00"))
+        # self.boxCostoConPrecio.setItemText(3, _translate("Reserva_de_habitacion",
+        #                                                     "Normales                  S/  170.00"))
+        self.cmdSiguiente.setText(_translate("Reserva_de_habitacion", "siguiente"))
+
+
+#Ventana reserva de alimentos
+class Ui_Alimento(object):
+    def __init__(self, client, tipo_habitacion, monto):
+        super().__init__()
+        self.client = client
+        self.tipo_habitacion = tipo_habitacion
+        self.costo_habitacion = monto
+        self.desayuno = ''
+        self.costo_desayuno = 0
+        self.almuerzo = ''
+        self.costo_almuerzo = 0
+        self.cena = ''
+        self.costo_cena = 0
+
+    def setupUi(self, menu):
+        menu.setObjectName("menu")
+        menu.resize(1025, 523)
+        self.lblTituloMenu = QtWidgets.QLabel(menu)
+        self.lblTituloMenu.setGeometry(QtCore.QRect(340, 16, 341, 45))
+        self.lblTituloMenu.setStyleSheet("font: 75 16pt \"MS Shell Dlg 2\";")
+        self.lblTituloMenu.setObjectName("lblTituloMenu")
+        self.cmdAnterior = QtWidgets.QPushButton(menu)
+
+        self.cmdAnterior.setGeometry(QtCore.QRect(20, 420, 75, 23))
+        self.cmdAnterior.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.cmdAnterior.setStyleSheet("background-color: rgb(204, 204, 204);\n""border-radius: 10px;\n""")
+        self.cmdAnterior.setObjectName("cmdAnterior")
+        self.cmdAnterior.clicked.connect(self.previous_step)
+
+        self.cmdReservar = QtWidgets.QPushButton(menu)
+        self.cmdReservar.setGeometry(QtCore.QRect(800, 420, 81, 23))
+        self.cmdReservar.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.cmdReservar.setStyleSheet("background-color: rgb(204, 204, 204);\n""border-radius: 10px;\n""")
+        self.cmdReservar.setObjectName("cmdReservar")
+        self.cmdReservar.clicked.connect(self.reserva)
+
+        self.label_5 = QtWidgets.QLabel(menu)
+        self.label_5.setGeometry(QtCore.QRect(92, 2, 16, 16))
+        self.label_5.setText("")
+        self.label_5.setObjectName("label_5")
+        self.verticalLayoutWidget = QtWidgets.QWidget(menu)
+        self.verticalLayoutWidget.setGeometry(QtCore.QRect(100, 68, 151, 137))
+        self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
+        self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_2.setObjectName("verticalLayout_2")
+        self.lblDesayuno = QtWidgets.QLabel(self.verticalLayoutWidget)
+        self.lblDesayuno.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(228, 228, 228, 255));")
+        self.lblDesayuno.setObjectName("lblDesayuno")
+        self.verticalLayout_2.addWidget(self.lblDesayuno)
+        self.lblAlmuerzo = QtWidgets.QLabel(self.verticalLayoutWidget)
+        self.lblAlmuerzo.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(228, 228, 228, 255));")
+        self.lblAlmuerzo.setObjectName("lblAlmuerzo")
+        self.verticalLayout_2.addWidget(self.lblAlmuerzo)
+        self.lblCena = QtWidgets.QLabel(self.verticalLayoutWidget)
+        self.lblCena.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(228, 228, 228, 255));")
+        self.lblCena.setObjectName("lblCena")
+        self.verticalLayout_2.addWidget(self.lblCena)
+        self.verticalLayoutWidget_2 = QtWidgets.QWidget(menu)
+        self.verticalLayoutWidget_2.setGeometry(QtCore.QRect(20, 68, 81, 137))
+        self.verticalLayoutWidget_2.setObjectName("verticalLayoutWidget_2")
+        self.verticalLayout_menu = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_2)
+        self.verticalLayout_menu.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_menu.setObjectName("verticalLayout_menu")
+        self.horizontalLayout_1 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_1.setObjectName("horizontalLayout_1")
+        self.lblMenu = QtWidgets.QLabel(self.verticalLayoutWidget_2)
+        self.lblMenu.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(145, 145, 145, 255));\n""background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(224, 224, 224, 255));")
+        self.lblMenu.setObjectName("lblMenu")
+        self.horizontalLayout_1.addWidget(self.lblMenu)
+        self.verticalLayout_menu.addLayout(self.horizontalLayout_1)
+        self.verticalLayoutWidget_3 = QtWidgets.QWidget(menu)
+        self.verticalLayoutWidget_3.setGeometry(QtCore.QRect(260, 68, 731, 137))
+        self.verticalLayoutWidget_3.setObjectName("verticalLayoutWidget_3")
+        self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_3)
+        self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_3.setObjectName("verticalLayout_3")
+        self.lblDesayunoTipos = QtWidgets.QLabel(self.verticalLayoutWidget_3)
+        self.lblDesayunoTipos.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(228, 228, 228, 255));")
+        self.lblDesayunoTipos.setObjectName("lblDesayunoTipos")
+        self.verticalLayout_3.addWidget(self.lblDesayunoTipos)
+        self.lblAlmuerzoTipos = QtWidgets.QLabel(self.verticalLayoutWidget_3)
+        self.lblAlmuerzoTipos.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(228, 228, 228, 255));")
+        self.lblAlmuerzoTipos.setObjectName("lblAlmuerzoTipos")
+        self.verticalLayout_3.addWidget(self.lblAlmuerzoTipos)
+        self.lblCenaTipos = QtWidgets.QLabel(self.verticalLayoutWidget_3)
+        self.lblCenaTipos.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(228, 228, 228, 255));")
+        self.lblCenaTipos.setObjectName("lblCenaTipos")
+        self.verticalLayout_3.addWidget(self.lblCenaTipos)
+        self.lblRealizarPedido = QtWidgets.QLabel(menu)
+        self.lblRealizarPedido.setGeometry(QtCore.QRect(20, 228, 271, 16))
+        self.lblRealizarPedido.setObjectName("lblRealizarPedido")
+        self.verticalLayoutWidget_4 = QtWidgets.QWidget(menu)
+        self.verticalLayoutWidget_4.setGeometry(QtCore.QRect(40, 260, 161, 137))
+        self.verticalLayoutWidget_4.setObjectName("verticalLayoutWidget_4")
+        self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_4)
+        self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_4.setObjectName("verticalLayout_4")
+        self.lblDesayunoPedido = QtWidgets.QLabel(self.verticalLayoutWidget_4)
+        self.lblDesayunoPedido.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(228, 228, 228, 255));")
+        self.lblDesayunoPedido.setObjectName("lblDesayunoPedido")
+        self.verticalLayout_4.addWidget(self.lblDesayunoPedido)
+        self.lblAlmuerzoPedido = QtWidgets.QLabel(self.verticalLayoutWidget_4)
+        self.lblAlmuerzoPedido.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(228, 228, 228, 255));")
+        self.lblAlmuerzoPedido.setObjectName("lblAlmuerzoPedido")
+        self.verticalLayout_4.addWidget(self.lblAlmuerzoPedido)
+        self.lblCenaPedido = QtWidgets.QLabel(self.verticalLayoutWidget_4)
+        self.lblCenaPedido.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(228, 228, 228, 255));")
+        self.lblCenaPedido.setObjectName("lblCenaPedido")
+        self.verticalLayout_4.addWidget(self.lblCenaPedido)
+        self.verticalLayoutWidget_5 = QtWidgets.QWidget(menu)
+        self.verticalLayoutWidget_5.setGeometry(QtCore.QRect(200, 260, 251, 137))
+        self.verticalLayoutWidget_5.setObjectName("verticalLayoutWidget_5")
+        self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_5)
+        self.verticalLayout_5.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_5.setObjectName("verticalLayout_5")
+        self.txtDesayunoPedido = QtWidgets.QComboBox(self.verticalLayoutWidget)
+        self.txtDesayunoPedido.setObjectName("txtDesayunoPedido")
+        self.txtDesayunoPedido.addItem("")
+        self.txtDesayunoPedido.addItem("")
+        self.txtDesayunoPedido.addItem("")
+        self.txtDesayunoPedido.addItem("")
+        self.verticalLayout_5.addWidget(self.txtDesayunoPedido)
+
+        self.txtAlmuerzoPedido = QtWidgets.QComboBox(self.verticalLayoutWidget)
+        self.txtAlmuerzoPedido.setObjectName("txtAlmuerzoPedido")
+        self.txtAlmuerzoPedido.addItem("")
+        self.txtAlmuerzoPedido.addItem("")
+        self.txtAlmuerzoPedido.addItem("")
+        self.txtAlmuerzoPedido.addItem("")
+        self.verticalLayout_5.addWidget(self.txtAlmuerzoPedido)
+
+        self.txtCenaPedido = QtWidgets.QComboBox(self.verticalLayoutWidget)
+        self.txtCenaPedido.setObjectName("txtCenaPedido")
+        self.txtCenaPedido.addItem("")
+        self.txtCenaPedido.addItem("")
+        self.txtCenaPedido.addItem("")
+        self.txtCenaPedido.addItem("")
+        self.verticalLayout_5.addWidget(self.txtCenaPedido)
+        self.verticalLayoutWidget_6 = QtWidgets.QWidget(menu)
+        self.verticalLayoutWidget_6.setGeometry(QtCore.QRect(470, 260, 141, 137))
+        self.verticalLayoutWidget_6.setObjectName("verticalLayoutWidget_6")
+        self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_6)
+        self.verticalLayout_6.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_6.setObjectName("verticalLayout_6")
+        self.lblDesayunoCantidad = QtWidgets.QLabel(self.verticalLayoutWidget_6)
+        self.lblDesayunoCantidad.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(228, 228, 228, 255));")
+        self.lblDesayunoCantidad.setObjectName("lblDesayunoCantidad")
+        self.verticalLayout_6.addWidget(self.lblDesayunoCantidad)
+        self.lblAlmuerzoCantidad = QtWidgets.QLabel(self.verticalLayoutWidget_6)
+        self.lblAlmuerzoCantidad.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(228, 228, 228, 255));")
+        self.lblAlmuerzoCantidad.setObjectName("lblAlmuerzoCantidad")
+        self.verticalLayout_6.addWidget(self.lblAlmuerzoCantidad)
+        self.lblCenaCantidad = QtWidgets.QLabel(self.verticalLayoutWidget_6)
+        self.lblCenaCantidad.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(228, 228, 228, 255));")
+        self.lblCenaCantidad.setObjectName("lblCenaCantidad")
+        self.verticalLayout_6.addWidget(self.lblCenaCantidad)
+        self.verticalLayoutWidget_7 = QtWidgets.QWidget(menu)
+        self.verticalLayoutWidget_7.setGeometry(QtCore.QRect(610, 260, 271, 137))
+        self.verticalLayoutWidget_7.setObjectName("verticalLayoutWidget_7")
+        self.verticalLayout_7 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_7)
+        self.verticalLayout_7.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_7.setObjectName("verticalLayout_7")
+
+
+        self.txtDesayunoCantidad = QtWidgets.QLineEdit(self.verticalLayoutWidget_7)
+        self.txtDesayunoCantidad.setObjectName("txtDesayunoCantidad")
+        self.verticalLayout_7.addWidget(self.txtDesayunoCantidad)
+        self.txtAlmuerzoCantidad = QtWidgets.QLineEdit(self.verticalLayoutWidget_7)
+        self.txtAlmuerzoCantidad.setObjectName("txtAlmuerzoCantidad")
+        self.verticalLayout_7.addWidget(self.txtAlmuerzoCantidad)
+        self.txtCenaCantidad = QtWidgets.QLineEdit(self.verticalLayoutWidget_7)
+        self.txtCenaCantidad.setObjectName("txtCenaCantidad")
+        self.verticalLayout_7.addWidget(self.txtCenaCantidad)
+
+        self.retranslateUi(menu)
+        QtCore.QMetaObject.connectSlotsByName(menu)
+
+    def retranslateUi(self, menu):
+        _translate = QtCore.QCoreApplication.translate
+        menu.setWindowTitle(_translate("menu", "MenuCombos"))
+        self.lblTituloMenu.setText(_translate("menu", "MENU COMBOS"))
+        self.cmdAnterior.setText(_translate("menu", "Anterior "))
+        self.cmdReservar.setText(_translate("menu", "Reservar"))
+        self.lblDesayuno.setText(_translate("menu", "  Desayuno:"))
+        self.lblAlmuerzo.setText(_translate("menu", "  Almuerzo:"))
+        self.lblCena.setText(_translate("menu", "  Cena:"))
+        self.lblMenu.setText(_translate("menu", "MENU"))
+        self.lblDesayunoTipos.setText(_translate("menu", " Jugo fresa con leche: 8.00 S/, Jugo de papaya: 5.00 S/, Té: 2.00 S/, Café: 3.00 S/"))
+        self.lblAlmuerzoTipos.setText(_translate("menu", " Menú criollo: 12.00 S/, Arroz con pollo: 12.00 S/, Ají de gallina: 12.00 S/, Ceviche: 20.00 S/"))
+        self.lblCenaTipos.setText(_translate("menu", " Pizza personal: 19.00 S/, Arroz chaufa: 14.00S/, Sopa wantán: 7.00S/, Té: 2.00 S/, Café: 3.00 S/"))
+        self.lblRealizarPedido.setText(_translate("menu", "Realizar pedido"))
+        self.lblDesayunoPedido.setText(_translate("menu", "  Desayuno:"))
+        self.lblAlmuerzoPedido.setText(_translate("menu", "  Almuerzo:"))
+        self.lblCenaPedido.setText(_translate("menu", "  Cena:"))
+        self.lblDesayunoCantidad.setText(_translate("menu", "Cantidad:"))
+        self.lblAlmuerzoCantidad.setText(_translate("menu", "Cantidad: "))
+        self.lblCenaCantidad.setText(_translate("menu", "Cantidad:"))
+
+        self.txtDesayunoPedido.setItemText(0, _translate("menu", "Fresa  S/ 8.00"))
+        self.txtDesayunoPedido.setItemText(1, _translate("menu", "Papaya      S/ 5.00"))
+        self.txtDesayunoPedido.setItemText(2, _translate("menu", u"Té     S/ 2.00"))
+        self.txtDesayunoPedido.setItemText(3, _translate("menu", u"Café     S/ 3.00"))
+        self.txtAlmuerzoPedido.setItemText(0, _translate("menu", u"Menú criollo  S/ 12.00"))
+        self.txtAlmuerzoPedido.setItemText(1, _translate("menu", "Arroz con pollo      S/ 12.00"))
+        self.txtAlmuerzoPedido.setItemText(2, _translate("menu", u"Ají de Gallina     S/ 12.00"))
+        self.txtAlmuerzoPedido.setItemText(3, _translate("menu", u"Ceviche     S/ 20.00"))
+        self.txtCenaPedido.setItemText(0, _translate("menu", "Pizza     S/ 19.00"))
+        self.txtCenaPedido.setItemText(1, _translate("menu", "Arroz chaufa      S/ 14.00"))
+        self.txtCenaPedido.setItemText(2, _translate("menu", u"Té     S/ 2.00"))
+        self.txtCenaPedido.setItemText(3, _translate("menu", u"Café     S/ 3.00"))
+
+    def previous_step(self):
+        self.ventana_reserva = QtWidgets.QDialog()
+        self.ui_reserva = Ui_Reserva_de_habitacion(self.client)
+        self.ui_reserva.setupUi(self.ventana_reserva)
+        self.ventana_reserva.show()
+
+    def reserva(self):
+        cant_desayuno = self.txtDesayunoCantidad.text()
+        desayuno = self.txtDesayunoPedido.currentIndex()
+        self.desayuno = self.txtDesayunoPedido.currentText()
+        cant_almuerzo = self.txtAlmuerzoCantidad.text()
+        almuerzo = self.txtAlmuerzoPedido.currentIndex()
+        self.almuerzo = self.txtAlmuerzoPedido.currentText()
+        cant_cena = self.txtCenaCantidad.text()
+        cena = self.txtCenaPedido.currentIndex()
+        self.cena = self.txtCenaPedido.currentText()
+
+        costo_desayuno = 0
+        if desayuno == 0:
+            costo_desayuno = 8.0
+        elif desayuno == 1:
+            costo_desayuno = 5.0
+        elif desayuno == 2:
+            costo_desayuno = 2.0
+        elif desayuno == 3:
+            costo_desayuno = 3.0
+        self.costo_desayuno = int(cant_desayuno) * costo_desayuno
+
+        costo_almuerzo = 0
+        if almuerzo == 0:
+            costo_almuerzo = 12.0
+        elif almuerzo == 1:
+            costo_almuerzo = 12.0
+        elif almuerzo == 2:
+            costo_almuerzo = 12.0
+        elif almuerzo == 3:
+            costo_almuerzo = 20.0
+        self.costo_almuerzo = int(cant_almuerzo) * costo_almuerzo
+
+        costo_cena = 0
+        if cena == 0:
+            costo_cena = 19.0
+        elif cena == 1:
+            costo_cena = 14.0
+        elif cena == 2:
+            costo_cena = 2.0
+        elif cena == 3:
+            costo_cena = 3.0
+        self.costo_cena = int(cant_cena) * costo_cena
+
+        monto = costo_desayuno + costo_almuerzo + costo_cena
+        print(monto)
+        self.next_step()
+        # self.boxCostoConPrecio.setText(f"S/ {str(monto)}")
+
+    def next_step(self):
+        self.ventana_boleta = QtWidgets.QDialog()
+        self.ui_boleta = Ui_lblMensaje7(
+            self.client,
+            self.tipo_habitacion,
+            self.costo_habitacion,
+            self.desayuno,
+            self.costo_desayuno,
+            self.almuerzo,
+            self.costo_almuerzo,
+            self.cena,
+            self.costo_cena
+            )
+        self.ui_boleta.setupUi(self.ventana_boleta)
+        self.ventana_boleta.show()
+
+
+#Ventana boleta
+class Ui_lblMensaje7(object):
+    def __init__(self, client, tipo_habitacion, costo_habitacion, desayuno, costo_desayuno,
+                 almuerzo, costo_almuerzo, cena, costo_cena):
+        super().__init__()
+        self.client = client
+        self.tipo_habitacion = tipo_habitacion
+        self.costo_habitacion = costo_habitacion
+        self.desayuno = desayuno
+        self.almuerzo = almuerzo
+        self.cena = cena
+        self.costo_desayuno = costo_desayuno
+        self.costo_almuerzo = costo_almuerzo
+        self.costo_cena = costo_cena
+        self.costo_total = self.costo_habitacion + self.costo_desayuno + self.costo_almuerzo + self.costo_cena
+
+    def setupUi(self, lblMensaje7):
+        lblMensaje7.setObjectName("lblMensaje7")
+        lblMensaje7.resize(438, 679)
+        self.lblMensaje1 = QtWidgets.QLabel(lblMensaje7)
+        self.lblMensaje1.setGeometry(QtCore.QRect(50, 0, 371, 61))
+        font = QtGui.QFont()
+        font.setFamily("Century Gothic")
+        font.setPointSize(9)
+        self.lblMensaje1.setFont(font)
+        self.lblMensaje1.setObjectName("lblMensaje1")
+        self.lblMensaje2 = QtWidgets.QLabel(lblMensaje7)
+        self.lblMensaje2.setGeometry(QtCore.QRect(150, 60, 55, 16))
+        font = QtGui.QFont()
+        font.setFamily("Century Gothic")
+        font.setPointSize(8)
+        self.lblMensaje2.setFont(font)
+        self.lblMensaje2.setObjectName("lblMensaje2")
+        self.lblMensaje3 = QtWidgets.QLabel(lblMensaje7)
+        self.lblMensaje3.setGeometry(QtCore.QRect(150, 90, 41, 16))
+        font = QtGui.QFont()
+        font.setFamily("Century Gothic")
+        font.setPointSize(8)
+        self.lblMensaje3.setFont(font)
+        self.lblMensaje3.setObjectName("lblMensaje3")
+        self.txtRUC = QtWidgets.QLineEdit(lblMensaje7)
+        self.txtRUC.setGeometry(QtCore.QRect(190, 60, 113, 22))
+        self.txtRUC.setObjectName("txtRUC")
+        self.txtRUC.setReadOnly(True)
+        self.txtRUC.setText('20123456789')
+        self.txtTELEF = QtWidgets.QLineEdit(lblMensaje7)
+        self.txtTELEF.setGeometry(QtCore.QRect(190, 90, 113, 22))
+        self.txtTELEF.setObjectName("txtTELEF")
+        self.line1 = QtWidgets.QFrame(lblMensaje7)
+        self.line1.setGeometry(QtCore.QRect(30, 130, 371, 20))
+        self.line1.setFrameShape(QtWidgets.QFrame.HLine)
+        self.line1.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line1.setObjectName("line1")
+        self.label_4 = QtWidgets.QLabel(lblMensaje7)
+        self.label_4.setGeometry(QtCore.QRect(20, 160, 55, 16))
+        self.label_4.setText("")
+        self.label_4.setObjectName("label_4")
+        self.lblMensaje4 = QtWidgets.QLabel(lblMensaje7)
+        self.lblMensaje4.setGeometry(QtCore.QRect(20, 160, 55, 16))
+        font = QtGui.QFont()
+        font.setFamily("Century Gothic")
+        font.setPointSize(8)
+        self.lblMensaje4.setFont(font)
+        self.lblMensaje4.setObjectName("lblMensaje4")
+        self.lineEdit = QtWidgets.QLineEdit(lblMensaje7)
+        self.lineEdit.setGeometry(QtCore.QRect(80, 160, 171, 22))
+        self.lineEdit.setObjectName("lineEdit")
+        self.lblMensaje5 = QtWidgets.QLabel(lblMensaje7)
+        self.lblMensaje5.setGeometry(QtCore.QRect(20, 200, 91, 16))
+        font = QtGui.QFont()
+        font.setFamily("Century Gothic")
+        font.setPointSize(8)
+        self.lblMensaje5.setFont(font)
+        self.lblMensaje5.setObjectName("lblMensaje5")
+        self.txtDocumento = QtWidgets.QLineEdit(lblMensaje7)
+        self.txtDocumento.setGeometry(QtCore.QRect(110, 200, 113, 22))
+        self.txtDocumento.setObjectName("txtDocumento")
+        self.line_2 = QtWidgets.QFrame(lblMensaje7)
+        self.line_2.setGeometry(QtCore.QRect(30, 230, 371, 20))
+        self.line_2.setFrameShape(QtWidgets.QFrame.HLine)
+        self.line_2.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line_2.setObjectName("line_2")
+        self.lblMensaje6 = QtWidgets.QLabel(lblMensaje7)
+        self.lblMensaje6.setGeometry(QtCore.QRect(110, 250, 241, 31))
+        font = QtGui.QFont()
+        font.setFamily("Century Gothic")
+        font.setPointSize(9)
+        self.lblMensaje6.setFont(font)
+        self.lblMensaje6.setObjectName("lblMensaje6")
+        self.line_3 = QtWidgets.QFrame(lblMensaje7)
+        self.line_3.setGeometry(QtCore.QRect(30, 280, 371, 20))
+        self.line_3.setFrameShape(QtWidgets.QFrame.HLine)
+        self.line_3.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line_3.setObjectName("line_3")
+        self.lblMensaje7_2 = QtWidgets.QLabel(lblMensaje7)
+        self.lblMensaje7_2.setGeometry(QtCore.QRect(20, 310, 55, 16))
+        font = QtGui.QFont()
+        font.setFamily("Century Gothic")
+        font.setPointSize(8)
+        self.lblMensaje7_2.setFont(font)
+        self.lblMensaje7_2.setObjectName("lblMensaje7_2")
+        self.txtFecha = QtWidgets.QLineEdit(lblMensaje7)
+        self.txtFecha.setGeometry(QtCore.QRect(70, 310, 71, 22))
+        self.txtFecha.setObjectName("txtFecha")
+        fecha = datetime.now().strftime("%Y-%m-%d")
+        hora = datetime.now().strftime("%H:%M:%S")
+        self.txtFecha.setText(fecha)
+        self.lineEdit_4 = QtWidgets.QLineEdit(lblMensaje7)
+        self.lineEdit_4.setGeometry(QtCore.QRect(260, 310, 113, 22))
+        self.lineEdit_4.setObjectName("lineEdit_4")
+        self.lblMensaje8 = QtWidgets.QLabel(lblMensaje7)
+        self.lblMensaje8.setGeometry(QtCore.QRect(220, 310, 55, 16))
+        font = QtGui.QFont()
+        font.setFamily("Century Gothic")
+        font.setPointSize(8)
+        self.lblMensaje8.setFont(font)
+        self.lblMensaje8.setObjectName("lblMensaje8")
+        self.line_4 = QtWidgets.QFrame(lblMensaje7)
+        self.line_4.setGeometry(QtCore.QRect(30, 340, 371, 20))
+        self.line_4.setFrameShape(QtWidgets.QFrame.HLine)
+        self.line_4.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line_4.setObjectName("line_4")
+        self.label_10 = QtWidgets.QLabel(lblMensaje7)
+        self.label_10.setGeometry(QtCore.QRect(20, 370, 55, 16))
+        self.label_10.setText("")
+        self.label_10.setObjectName("label_10")
+        self.lblMensaje9 = QtWidgets.QLabel(lblMensaje7)
+        self.lblMensaje9.setGeometry(QtCore.QRect(40, 360, 71, 16))
+        font = QtGui.QFont()
+        font.setFamily("Century Gothic")
+        font.setPointSize(9)
+        self.lblMensaje9.setFont(font)
+        self.lblMensaje9.setObjectName("lblMensaje9")
+        self.lblMensaje10 = QtWidgets.QLabel(lblMensaje7)
+        self.lblMensaje10.setGeometry(QtCore.QRect(290, 360, 71, 16))
+        font = QtGui.QFont()
+        font.setFamily("Century Gothic")
+        font.setPointSize(9)
+        self.lblMensaje10.setFont(font)
+        self.lblMensaje10.setObjectName("lblMensaje10")
+        self.lblMensaje12 = QtWidgets.QLabel(lblMensaje7)
+        self.lblMensaje12.setGeometry(QtCore.QRect(30, 390, 91, 16))
+        font = QtGui.QFont()
+        font.setFamily("Century Gothic")
+        font.setPointSize(9)
+        self.lblMensaje12.setFont(font)
+        self.lblMensaje12.setObjectName("lblMensaje12")
+        self.label = QtWidgets.QLabel(lblMensaje7)
+        self.label.setGeometry(QtCore.QRect(250, 430, 55, 16))
+        self.label.setText("")
+        self.label.setObjectName("label")
+        self.lblMensaje13 = QtWidgets.QLabel(lblMensaje7)
+        self.lblMensaje13.setGeometry(QtCore.QRect(290, 390, 71, 16))
+        font = QtGui.QFont()
+        font.setFamily("Century Gothic")
+        font.setPointSize(9)
+        self.lblMensaje13.setFont(font)
+        self.lblMensaje13.setObjectName("lblMensaje13")
+        self.line_5 = QtWidgets.QFrame(lblMensaje7)
+        self.line_5.setGeometry(QtCore.QRect(20, 530, 371, 20))
+        self.line_5.setFrameShape(QtWidgets.QFrame.HLine)
+        self.line_5.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line_5.setObjectName("line_5")
+        self.lblMensaje22_2 = QtWidgets.QLabel(lblMensaje7)
+        self.lblMensaje22_2.setGeometry(QtCore.QRect(10, 550, 71, 16))
+        font = QtGui.QFont()
+        font.setFamily("Century Gothic")
+        font.setPointSize(8)
+        self.lblMensaje22_2.setFont(font)
+        self.lblMensaje22_2.setObjectName("lblMensaje22_2")
+        self.lblMensaje23_2 = QtWidgets.QLabel(lblMensaje7)
+        self.lblMensaje23_2.setGeometry(QtCore.QRect(250, 550, 71, 16))
+        font = QtGui.QFont()
+        font.setFamily("Century Gothic")
+        font.setPointSize(9)
+        self.lblMensaje23_2.setFont(font)
+        self.lblMensaje23_2.setObjectName("lblMensaje23_2")
+        self.lblMensaje24_2 = QtWidgets.QLabel(lblMensaje7)
+        self.lblMensaje24_2.setGeometry(QtCore.QRect(10, 570, 231, 16))
+        font = QtGui.QFont()
+        font.setFamily("Century Gothic")
+        font.setPointSize(8)
+        self.lblMensaje24_2.setFont(font)
+        self.lblMensaje24_2.setObjectName("lblMensaje24_2")
+        self.line = QtWidgets.QFrame(lblMensaje7)
+        self.line.setGeometry(QtCore.QRect(20, 590, 371, 16))
+        self.line.setFrameShape(QtWidgets.QFrame.HLine)
+        self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line.setObjectName("line")
+        self.label_2 = QtWidgets.QLabel(lblMensaje7)
+        self.label_2.setGeometry(QtCore.QRect(20, 510, 55, 16))
+        self.label_2.setText("")
+        self.label_2.setObjectName("label_2")
+        self.lblMensaje25 = QtWidgets.QLabel(lblMensaje7)
+        self.lblMensaje25.setGeometry(QtCore.QRect(20, 610, 71, 16))
+        font = QtGui.QFont()
+        font.setFamily("Century Gothic")
+        font.setPointSize(9)
+        self.lblMensaje25.setFont(font)
+        self.lblMensaje25.setObjectName("lblMensaje25")
+        self.lblMensaje26 = QtWidgets.QLabel(lblMensaje7)
+        self.lblMensaje26.setGeometry(QtCore.QRect(250, 610, 71, 16))
+        font = QtGui.QFont()
+        font.setFamily("Century Gothic")
+        font.setPointSize(9)
+        self.lblMensaje26.setFont(font)
+        self.lblMensaje26.setObjectName("lblMensaje26")
+        self.lblMensaje27 = QtWidgets.QLabel(lblMensaje7)
+        self.lblMensaje27.setGeometry(QtCore.QRect(20, 630, 71, 16))
+        font = QtGui.QFont()
+        font.setFamily("Century Gothic")
+        font.setPointSize(9)
+        self.lblMensaje27.setFont(font)
+        self.lblMensaje27.setObjectName("lblMensaje27")
+        self.lblMensaje28 = QtWidgets.QLabel(lblMensaje7)
+        self.lblMensaje28.setGeometry(QtCore.QRect(250, 630, 71, 16))
+        font = QtGui.QFont()
+        font.setFamily("Century Gothic")
+        font.setPointSize(9)
+        self.lblMensaje28.setFont(font)
+        self.lblMensaje28.setObjectName("lblMensaje28")
+        self.line_6 = QtWidgets.QFrame(lblMensaje7)
+        self.line_6.setGeometry(QtCore.QRect(20, 650, 361, 20))
+        self.line_6.setFrameShape(QtWidgets.QFrame.HLine)
+        self.line_6.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line_6.setObjectName("line_6")
+        self.lblMensaje14 = QtWidgets.QLabel(lblMensaje7)
+        self.lblMensaje14.setGeometry(QtCore.QRect(10, 420, 201, 16))
+        font = QtGui.QFont()
+        font.setFamily("Century Gothic")
+        font.setPointSize(9)
+        self.lblMensaje14.setFont(font)
+        self.lblMensaje14.setObjectName("lblMensaje14")
+        self.lblMensaje15 = QtWidgets.QLabel(lblMensaje7)
+        self.lblMensaje15.setGeometry(QtCore.QRect(10, 450, 231, 16))
+        font = QtGui.QFont()
+        font.setFamily("Century Gothic")
+        font.setPointSize(9)
+        self.lblMensaje15.setFont(font)
+        self.lblMensaje15.setObjectName("lblMensaje15")
+        self.lblMensaje16 = QtWidgets.QLabel(lblMensaje7)
+        self.lblMensaje16.setGeometry(QtCore.QRect(10, 480, 251, 16))
+        font = QtGui.QFont()
+        font.setFamily("Century Gothic")
+        font.setPointSize(9)
+        self.lblMensaje16.setFont(font)
+        self.lblMensaje16.setObjectName("lblMensaje16")
+        self.lblMensaje17 = QtWidgets.QLabel(lblMensaje7)
+        self.lblMensaje17.setGeometry(QtCore.QRect(10, 510, 181, 16))
+        font = QtGui.QFont()
+        font.setFamily("Century Gothic")
+        font.setPointSize(9)
+        self.lblMensaje17.setFont(font)
+        self.lblMensaje17.setObjectName("lblMensaje17")
+        self.lblMensaje18 = QtWidgets.QLabel(lblMensaje7)
+        self.lblMensaje18.setGeometry(QtCore.QRect(290, 420, 61, 16))
+        font = QtGui.QFont()
+        font.setFamily("Century Gothic")
+        font.setPointSize(9)
+        self.lblMensaje18.setFont(font)
+        self.lblMensaje18.setObjectName("lblMensaje18")
+        self.lblMensaje19 = QtWidgets.QLabel(lblMensaje7)
+        self.lblMensaje19.setGeometry(QtCore.QRect(290, 450, 61, 16))
+        font = QtGui.QFont()
+        font.setFamily("Century Gothic")
+        font.setPointSize(9)
+        self.lblMensaje19.setFont(font)
+        self.lblMensaje19.setObjectName("lblMensaje19")
+        self.lblMensaje20 = QtWidgets.QLabel(lblMensaje7)
+        self.lblMensaje20.setGeometry(QtCore.QRect(290, 480, 71, 16))
+        font = QtGui.QFont()
+        font.setFamily("Century Gothic")
+        font.setPointSize(9)
+        self.lblMensaje20.setFont(font)
+        self.lblMensaje20.setObjectName("lblMensaje20")
+        self.lblMensaje21_2 = QtWidgets.QLabel(lblMensaje7)
+        self.lblMensaje21_2.setGeometry(QtCore.QRect(290, 510, 61, 16))
+        font = QtGui.QFont()
+        font.setFamily("Century Gothic")
+        font.setPointSize(9)
+        self.lblMensaje21_2.setFont(font)
+        self.lblMensaje21_2.setObjectName("lblMensaje21_2")
+
+        self.retranslateUi(lblMensaje7)
+        QtCore.QMetaObject.connectSlotsByName(lblMensaje7)
+
+    def retranslateUi(self, lblMensaje7):
+        _translate = QtCore.QCoreApplication.translate
+        lblMensaje7.setWindowTitle(_translate("lblMensaje7", "BOLETA DE PAGO"))
+        self.lblMensaje1.setText(_translate("lblMensaje7", "PARADISE HOTEL AND RESORT-CERCADO DE LIMA "))
+        self.lblMensaje2.setText(_translate("lblMensaje7", "RUC:"))
+        self.lblMensaje3.setText(_translate("lblMensaje7", "TELEF:"))
+        self.lblMensaje4.setText(_translate("lblMensaje7", "Cliente:"))
+        self.lblMensaje5.setText(_translate("lblMensaje7", "Documento:"))
+        self.lblMensaje6.setText(_translate("lblMensaje7", "BOLETA DE VENTA ELECTRONICA"))
+        self.lblMensaje7_2.setText(_translate("lblMensaje7", "Fecha:"))
+        self.lblMensaje8.setText(_translate("lblMensaje7", "Hora:"))
+        self.lblMensaje9.setText(_translate("lblMensaje7", str(self.tipo_habitacion)))
+        self.lblMensaje10.setText(_translate("lblMensaje7", str(self.costo_habitacion)))
+        # self.lblMensaje12.setText(_translate("lblMensaje7", "Matrimonial"))
+        # self.lblMensaje13.setText(_translate("lblMensaje7", f"s/ {self.costo_total}"))
+        self.lblMensaje22_2.setText(_translate("lblMensaje7", "***TOTAL"))
+        self.lblMensaje23_2.setText(_translate("lblMensaje7", f"s/ {self.costo_total}"))
+        self.lblMensaje24_2.setText(_translate("lblMensaje7", "***CAJERO: MENDIETA DAYANA"))
+        self.lblMensaje25.setText(_translate("lblMensaje7", "Efectivo"))
+        self.lblMensaje26.setText(_translate("lblMensaje7", f"s/ {self.costo_total}"))
+        self.lblMensaje27.setText(_translate("lblMensaje7", "Vuelto"))
+        self.lblMensaje28.setText(_translate("lblMensaje7", "s/ 0.00"))
+        self.lblMensaje14.setText(_translate("lblMensaje7", str(self.desayuno)))
+        self.lblMensaje15.setText(_translate("lblMensaje7", str(self.almuerzo)))
+        self.lblMensaje16.setText(_translate("lblMensaje7", str(self.cena)))
+        #self.lblMensaje17.setText(_translate("lblMensaje7", "Hamburguesa vegana"))
+        self.lblMensaje18.setText(_translate("lblMensaje7", f"s/ {self.costo_desayuno}"))
+        self.lblMensaje19.setText(_translate("lblMensaje7", f"s/ {self.costo_almuerzo}"))
+        self.lblMensaje20.setText(_translate("lblMensaje7", f"s/ {self.costo_cena}"))
+        #self.lblMensaje21_2.setText(_translate("lblMensaje7", "s/ 25.80"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    menu = QtWidgets.QDialog()
+    ui = Ui_Form()
+    ui.setupUi(menu)
+    menu.show()
+    sys.exit(app.exec_())
